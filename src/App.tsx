@@ -6,41 +6,41 @@ import { ArrowRight, Sparkles, Terminal as TerminalIcon, Activity, Cpu, Network,
 const EXPERIMENTS = [
   {
     id: '01',
-    title: 'Learnivo AI',
-    category: 'Adaptive Learning',
-    description: 'An adaptive neural learning environment that dynamically generates curriculum based on real-time cognitive load analysis.',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+    title: 'Project Omni',
+    category: 'Multimodal Reasoning',
+    description: 'A unified neural architecture capable of processing text, vision, and audio streams simultaneously with zero-shot capabilities.',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Active',
   },
   {
     id: '02',
-    title: 'EduPilot',
-    category: 'Teacher Copilot',
-    description: 'Intelligent assistant for educators to automate subjective grading, generate lesson plans, and track student performance analytics.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+    title: 'Neural Canvas',
+    category: 'Latent Diffusion',
+    description: 'Infinite workspace powered by real-time latent diffusion models. Generate, edit, and expand visual concepts at the speed of thought.',
+    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Beta',
   },
   {
     id: '03',
-    title: 'NeuroCode',
-    category: 'Developer Tools',
-    description: 'Context-aware AI coding companion that learns your team\'s specific architecture, design patterns, and codebase conventions.',
+    title: 'CodeSynth V3',
+    category: 'Autonomous Agents',
+    description: 'Self-correcting coding agents that understand repository-level context, architect solutions, and submit pull requests.',
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Internal',
   },
   {
     id: '04',
-    title: 'Aura Vision',
-    category: 'Computer Vision',
-    description: 'Real-time multimodal emotion and engagement tracking models optimized for remote learning and telehealth applications.',
+    title: 'AudioForge',
+    category: 'Generative Audio',
+    description: 'High-fidelity spatial audio generation from text prompts. Create soundscapes, voices, and music with precise acoustic control.',
     image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Research',
   },
   {
     id: '05',
-    title: 'SynthData',
-    category: 'Data Generation',
-    description: 'Privacy-preserving synthetic data generation engine for training robust machine learning models without exposing PII.',
+    title: 'Quantum Sim',
+    category: 'Quantum ML',
+    description: 'Simulating quantum neural networks on classical hardware to discover new optimization landscapes for deep learning.',
     image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Concept',
   }
@@ -291,7 +291,7 @@ const Hero = () => {
               <div className="text-white font-mono text-xs md:text-sm">14.2B Parameters</div>
             </div>
             <div className="col-span-2 md:col-span-1 md:text-right flex items-end md:justify-end">
-              <a href="#showcase" className="inline-flex items-center gap-2 text-white font-mono text-xs uppercase tracking-widest hover:text-blue-400 transition-colors group">
+              <a href="#about" className="inline-flex items-center gap-2 text-white font-mono text-xs uppercase tracking-widest hover:text-blue-400 transition-colors group">
                 Scroll to explore 
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform" />
               </a>
@@ -302,8 +302,6 @@ const Hero = () => {
     </section>
   );
 };
-
-
 
 const About = () => {
   const ref = useRef(null);
@@ -323,7 +321,7 @@ const About = () => {
           <div className="flex flex-col md:flex-row gap-8 font-mono text-sm text-gray-400 uppercase tracking-widest">
             <div className="flex flex-col gap-2">
               <span className="text-white">Founded</span>
-              <span>2026</span>
+              <span>2024</span>
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-white">Focus</span>
@@ -552,25 +550,21 @@ const Metrics = () => {
   );
 };
 
-const HeroMarquee = () => {
+const HugeMarquee = () => {
   return (
-    <div className="py-10 overflow-hidden bg-[#030303] border-t border-b border-white/10">
+    <div className="py-20 overflow-hidden bg-[#030303] border-t border-white/10">
       <div className="marquee-container">
         <div className="marquee-content items-center gap-12">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(4)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="text-[6vw] md:text-[4vw] font-display font-bold uppercase tracking-tighter leading-none text-white">
-                Generative Models
+              <span className="text-[12vw] font-display font-bold uppercase tracking-tighter leading-none text-outline">
+                Vasudev AI
               </span>
-              <Sparkles className="w-8 h-8 md:w-12 md:h-12 text-white" />
-              <span className="text-[6vw] md:text-[4vw] font-display font-bold uppercase tracking-tighter leading-none text-outline">
-                Neural Interfaces
+              <Sparkles className="w-12 h-12 md:w-20 md:h-20 text-white" />
+              <span className="text-[12vw] font-display font-bold uppercase tracking-tighter leading-none text-white">
+                Research
               </span>
-              <Sparkles className="w-8 h-8 md:w-12 md:h-12 text-white" />
-              <span className="text-[6vw] md:text-[4vw] font-display font-bold uppercase tracking-tighter leading-none text-white">
-                Experimental Research
-              </span>
-              <Sparkles className="w-8 h-8 md:w-12 md:h-12 text-white" />
+              <Sparkles className="w-12 h-12 md:w-20 md:h-20 text-white" />
             </React.Fragment>
           ))}
         </div>
@@ -643,12 +637,12 @@ export default function App() {
           <Navbar />
           <main>
             <Hero />
-            <HeroMarquee />
             <About />
             <Showcase />
             <Capabilities />
             <TerminalSection />
             <Metrics />
+            <HugeMarquee />
           </main>
           <Footer />
         </motion.div>
