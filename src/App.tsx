@@ -1,48 +1,192 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence, useInView } from 'motion/react';
-import { ArrowRight, Sparkles, Terminal as TerminalIcon, Activity, Cpu, Network, ArrowUpRight, Database, Lock, Zap, Code } from 'lucide-react';
+import { ArrowRight, Sparkles, Activity, Cpu, Network, ArrowUpRight, Database, Lock, Zap, Code, ChevronLeft, Globe, Terminal as TerminalIcon } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate, useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // --- Data ---
+const customTabyeMarkdown = `
+# Minimal Tab By Vasudev AI
+
+A premium, Apple-style new tab dashboard for Chrome - built with pure HTML, CSS & JavaScript.
+
+---
+
+## About This Project
+
+**Minimal Tab** replaces your default Chrome new tab with a beautiful, feature-rich dashboard. It comes with a Settings Panel offering 20+ customization options.
+
+- **Version:** 1.1
+- **License:** MIT
+- **Demo:** [search.vasudev.online](http://search.vasudev.online/)
+- **Repository:** [github.com/sg-surya/custom-tabye](https://github.com/sg-surya/custom-tabye)
+
+---
+
+## Features (20+)
+
+### Core Features
+- Live Clock with 12h/24h toggle
+- Personalized Greeting (Good morning/afternoon/evening + Your Name)
+- Google Search with Omnibox autocomplete
+- Dark/Light Theme toggle
+- Notes, Tasks & Calendar widgets
+- Customizable Dock (add/remove websites)
+- Apple-style 3D animations & floating gradient background
+
+### Settings Panel (20 Premium Features)
+1. Settings Panel UI (modal with inner+outer shadow)
+2. Greeting with User Name
+3. Custom Accent Color Picker (8 colors + custom)
+4. Clock Options (show/hide, 12h/24h, seconds)
+5. Focus Mode (hide everything except search)
+6. Quotes / Motivation Widget
+7. Theme Presets (Midnight, Ocean, Sunset, Forest, Mono)
+8. Font Selector (Inter, Poppins, Space Grotesk, Outfit, JetBrains Mono)
+9. Layout Options (Center, Compact, Minimal)
+10. Weather Widget (OpenWeather API)
+11. Pomodoro / Focus Timer
+12. Quick Links Grid
+13. Custom Background / Wallpaper
+14. Habit Tracker
+15. Bookmark shortcuts (dock-based)
+16. Screen Time Analytics
+17. Ambient Sound Player
+18. Widget Layout (drag info)
+19. Import/Export Settings (JSON)
+20. Keyboard Shortcuts Panel (?)
+
+---
+
+## Tech Stack
+
+| Technology | Purpose |
+|-----------|---------|
+| HTML5 | Structure |
+| CSS3 | Styling, glassmorphism, animations |
+| JavaScript (Vanilla) | All functionality |
+| Chrome Manifest V3 | Extension config |
+| Google Fonts | Typography |
+| localStorage | Data persistence |
+
+---
+
+## Installation
+
+### Chrome (Load Unpacked)
+1. Download ZIP from GitHub
+2. Go to \`chrome://extensions\`
+3. Enable Developer Mode (top-right)
+4. Click "Load unpacked"
+5. Select the folder
+
+### Keyboard Shortcuts
+| Key | Action |
+|-----|-------|
+| \`/\` | Focus search |
+| \`T\` | Toggle theme |
+| \`W\` | Toggle widgets |
+| \`S\` | Open settings |
+| \`?\` | Show shortcuts |
+| \`F\` | Toggle focus mode |
+| \`Esc\` | Close panel |
+
+---
+
+## Future Roadmap
+
+- [x] Weather widget
+- [x] Pomodoro timer
+- [x] Custom wallpaper
+- [x] Accent color picker
+- [x] Quotes widget
+- [x] Habit tracker
+- [ ] Browser sync across devices
+- [ ] Multi-language support
+- [ ] Chrome Web Store publish
+
+---
+
+## Links
+
+- **Demo:** [search.vasudev.online](http://search.vasudev.online/)
+- **GitHub:** [github.com/sg-surya/custom-tabye](https://github.com/sg-surya/custom-tabye)
+- **Website:** [vasudev.online](https://vasudev.online)
+
+---
+
+*Built with care by Vasudev AI*
+`;
+
 const EXPERIMENTS = [
   {
     id: '01',
+    slug: 'learnivo-ai',
+    title: 'Learnivo AI',
+    category: 'EdTech AI',
+    description: 'An advanced EdTech AI tool designed specifically for schools and teachers to personalize learning and automate grading.',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+    status: 'Beta',
+    details: 'Learnivo AI is a comprehensive educational platform that leverages machine learning to adapt to individual student needs. It features automated essay scoring, personalized curriculum generation, and real-time analytics for educators to track student progress. The system is designed to reduce administrative overhead for teachers while providing students with a tailored learning experience.',
+    techStack: ['Python', 'PyTorch', 'Next.js', 'PostgreSQL'],
+    links: []
+  },
+  {
+    id: '02',
+    slug: 'custom-tabye',
+    title: 'Custom-Tabye',
+    category: 'Chrome Extension',
+    description: 'A premium, minimal, Apple-style new tab experience for Chrome that replaces the default new tab with a highly efficient dashboard.',
+    image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+    status: 'Active',
+    details: 'Custom-Tabye transforms the standard Chrome new tab into a beautifully crafted, minimal workspace. It features a clean, Apple-inspired aesthetic with customizable widgets, quick links, and keyboard shortcuts for power users. Built with performance in mind, it loads instantly and respects user privacy by operating entirely locally.',
+    markdown: customTabyeMarkdown,
+    techStack: ['HTML', 'CSS', 'JavaScript', 'Chrome API'],
+    links: [
+      { label: 'Live Demo', url: 'https://search.vasudev.online/', icon: <Globe className="w-4 h-4" /> },
+      { label: 'GitHub Repo', url: 'https://github.com/sg-surya/custom-tabye', icon: <Code className="w-4 h-4" /> }
+    ],
+    screenshots: [
+      'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1000&auto=format&fit=crop&grayscale=true'
+    ]
+  },
+  {
+    id: '03',
+    slug: 'vasu-search',
+    title: 'Vasu Search',
+    category: 'Search Engine',
+    description: 'A custom search engine with a premium, minimal UI and highly efficient retrieval features.',
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop&grayscale=true',
+    status: 'Active',
+    details: 'Vasu Search is an experimental search engine designed for speed and precision. It features a distraction-free interface and utilizes advanced natural language processing to understand user intent better than keyword-based systems. The backend is powered by a distributed architecture ensuring rapid query resolution.',
+    techStack: ['React', 'Node.js', 'Elasticsearch', 'Redis'],
+    links: []
+  },
+  {
+    id: '04',
+    slug: 'project-omni',
     title: 'Project Omni',
     category: 'Multimodal Reasoning',
     description: 'A unified neural architecture capable of processing text, vision, and audio streams simultaneously with zero-shot capabilities.',
     image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop&grayscale=true',
-    status: 'Active',
+    status: 'Research',
+    details: 'Omni represents our foundational research into true multimodal understanding. By mapping discrete sensory inputs into a continuous latent space, Omni achieves unprecedented cross-modal reasoning.',
+    techStack: ['JAX', 'TPUv4', 'Flax', 'C++'],
+    links: []
   },
   {
-    id: '02',
+    id: '05',
+    slug: 'neural-canvas',
     title: 'Neural Canvas',
     category: 'Latent Diffusion',
     description: 'Infinite workspace powered by real-time latent diffusion models. Generate, edit, and expand visual concepts at the speed of thought.',
     image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop&grayscale=true',
-    status: 'Beta',
-  },
-  {
-    id: '03',
-    title: 'CodeSynth V3',
-    category: 'Autonomous Agents',
-    description: 'Self-correcting coding agents that understand repository-level context, architect solutions, and submit pull requests.',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop&grayscale=true',
     status: 'Internal',
-  },
-  {
-    id: '04',
-    title: 'AudioForge',
-    category: 'Generative Audio',
-    description: 'High-fidelity spatial audio generation from text prompts. Create soundscapes, voices, and music with precise acoustic control.',
-    image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1000&auto=format&fit=crop&grayscale=true',
-    status: 'Research',
-  },
-  {
-    id: '05',
-    title: 'Quantum Sim',
-    category: 'Quantum ML',
-    description: 'Simulating quantum neural networks on classical hardware to discover new optimization landscapes for deep learning.',
-    image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000&auto=format&fit=crop&grayscale=true',
-    status: 'Concept',
+    details: 'Neural Canvas acts as a direct interface between human intent and generative output. It utilizes a custom low-latency diffusion pipeline optimized for real-time interaction.',
+    techStack: ['WebGL', 'WebRTC', 'TensorRT', 'CUDA'],
+    links: []
   }
 ];
 
@@ -53,7 +197,15 @@ const CAPABILITIES = [
   { icon: <Code className="w-6 h-6" />, title: 'Neural Architecture Search', desc: 'Automated discovery of optimal network topologies for specific tasks.' },
 ];
 
-// --- Components ---
+// --- Utilities & Shared Components ---
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
@@ -206,20 +358,20 @@ const Navbar = () => {
       className="fixed top-0 left-0 right-0 z-50 mix-blend-difference text-white"
     >
       <div className="max-w-[95%] md:max-w-[90%] mx-auto h-24 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <span className="font-display font-bold text-xl tracking-tighter uppercase">
             Vasudev AI
           </span>
           <span className="px-2 py-1 border border-white/20 rounded-full text-[10px] font-mono uppercase tracking-widest">
             Labs
           </span>
-        </div>
+        </Link>
         
         <div className="flex items-center gap-8">
           <div className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest">
-            <a href="#about" className="hover:text-white/60 transition-colors">About</a>
-            <a href="#showcase" className="hover:text-white/60 transition-colors">Showcase</a>
-            <a href="#capabilities" className="hover:text-white/60 transition-colors">Capabilities</a>
+            <Link to="/#about" className="hover:text-white/60 transition-colors">About</Link>
+            <Link to="/#showcase" className="hover:text-white/60 transition-colors">Showcase</Link>
+            <Link to="/#capabilities" className="hover:text-white/60 transition-colors">Capabilities</Link>
           </div>
           <MagneticButton className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
             <div className="w-4 h-4 flex flex-col justify-between pointer-events-none">
@@ -234,11 +386,19 @@ const Navbar = () => {
   );
 };
 
+// --- Page Components ---
+
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 300]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
   const scale = useTransform(scrollY, [0, 500], [1, 0.9]);
+
+  const [time, setTime] = useState(new Date().toISOString());
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date().toISOString()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="relative h-screen flex flex-col justify-center overflow-hidden">
@@ -278,7 +438,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-8 w-full border-t border-white/10 pt-8"
+            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 w-full border-t border-white/10 pt-8"
           >
             <div>
               <div className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-widest mb-2">System Status</div>
@@ -287,6 +447,10 @@ const Hero = () => {
               </div>
             </div>
             <div>
+              <div className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-widest mb-2">Global Time (UTC)</div>
+              <div className="text-white font-mono text-xs md:text-sm">{time.split('T')[1].split('.')[0]}</div>
+            </div>
+            <div className="hidden md:block">
               <div className="text-gray-500 font-mono text-[10px] md:text-xs uppercase tracking-widest mb-2">Active Models</div>
               <div className="text-white font-mono text-xs md:text-sm">14.2B Parameters</div>
             </div>
@@ -344,6 +508,7 @@ const Showcase = () => {
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -369,6 +534,7 @@ const Showcase = () => {
         {EXPERIMENTS.map((exp, index) => (
           <div 
             key={exp.id}
+            onClick={() => navigate(`/project/${exp.slug}`)}
             className="project-row border-b border-white/10 py-12 md:py-16 cursor-pointer relative group"
             onMouseEnter={() => setHoveredIndex(index)}
           >
@@ -378,8 +544,9 @@ const Showcase = () => {
                 <span className="font-mono text-xl md:text-2xl text-gray-600 group-hover:text-white transition-colors duration-300">
                   {exp.id}
                 </span>
-                <h3 className="text-3xl md:text-5xl font-display font-bold text-white group-hover:translate-x-4 transition-transform duration-500 ease-out">
+                <h3 className="text-3xl md:text-5xl font-display font-bold text-white group-hover:translate-x-4 transition-transform duration-500 ease-out flex items-center gap-4">
                   {exp.title}
+                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-blue-400" />
                 </h3>
               </div>
               
@@ -418,7 +585,7 @@ const Showcase = () => {
             translateY: '-50%',
             opacity: hoveredIndex !== null ? 1 : 0,
             scale: hoveredIndex !== null ? 1 : 0.8,
-            rotate: hoveredIndex !== null ? (mouseX.getVelocity() * 0.01) : 0, // Slight rotation based on movement
+            rotate: hoveredIndex !== null ? (mouseX.getVelocity() * 0.01) : 0,
           }}
           transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.4, ease: "easeOut" } }}
         >
@@ -592,7 +759,7 @@ const Footer = () => {
           <div className="flex flex-wrap gap-16 font-mono text-sm">
             <div className="flex flex-col gap-4">
               <span className="text-gray-600 uppercase tracking-widest mb-2 text-xs">Lab</span>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">Experiments</a>
+              <Link to="/#showcase" className="text-gray-300 hover:text-white transition-colors">Experiments</Link>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Publications</a>
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Team</a>
             </div>
@@ -617,36 +784,201 @@ const Footer = () => {
   );
 };
 
+// --- Routes ---
+
+const Home = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Hero />
+      <About />
+      <Showcase />
+      <Capabilities />
+      <TerminalSection />
+      <Metrics />
+      <HugeMarquee />
+    </motion.div>
+  );
+};
+
+const ProjectDetail = () => {
+  const { slug } = useParams();
+  const project = EXPERIMENTS.find(p => p.slug === slug);
+  const navigate = useNavigate();
+
+  if (!project) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white font-mono">
+        Project not found.
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
+      className="pt-32 pb-20 min-h-screen bg-[#030303] relative"
+    >
+      <div className="absolute inset-0 bg-grid-dark opacity-30 pointer-events-none z-0" />
+      
+      <div className="max-w-[90%] md:max-w-[70%] mx-auto relative z-10">
+        <button 
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-400 hover:text-white font-mono text-xs uppercase tracking-widest mb-12 transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" /> Back to Lab
+        </button>
+
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+          <span className="font-mono text-2xl text-gray-600">{project.id}</span>
+          <span className="px-3 py-1 border border-white/20 rounded-full text-[10px] font-mono text-white uppercase tracking-widest">
+            {project.category}
+          </span>
+          <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest flex items-center gap-2">
+            <span className={`w-1.5 h-1.5 rounded-full ${project.status === 'Active' ? 'bg-green-500' : project.status === 'Beta' ? 'bg-blue-500' : 'bg-orange-500'}`}></span>
+            {project.status}
+          </span>
+          
+          {project.links && project.links.length > 0 && (
+            <div className="flex gap-3 ml-auto">
+              {project.links.map((link, i) => (
+                <a 
+                  key={i} 
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 border border-white/20 rounded-full text-white font-mono text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-colors"
+                >
+                  {link.icon}
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white mb-8 tracking-tighter">
+          {project.title}
+        </h1>
+
+        <p className="text-xl md:text-2xl text-gray-400 font-sans leading-relaxed mb-16 max-w-3xl">
+          {project.description}
+        </p>
+
+        <div className="w-full h-[40vh] md:h-[60vh] rounded-xl overflow-hidden mb-16 border border-white/10">
+          <img 
+            src={project.image} 
+            alt={project.title} 
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            referrerPolicy="no-referrer"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/10 pt-16">
+          <div className="md:col-span-2">
+            <h2 className="text-2xl font-display font-bold text-white mb-6">Project Overview</h2>
+            <div className="prose prose-invert prose-lg max-w-none text-gray-300 font-sans leading-relaxed">
+              {project.markdown ? (
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({node, ...props}) => <h1 className="text-4xl font-display font-bold text-white mt-12 mb-6" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="text-3xl font-display font-bold text-white mt-10 mb-4 border-b border-white/10 pb-2" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="text-2xl font-display font-bold text-white mt-8 mb-4" {...props} />,
+                    p: ({node, ...props}) => <p className="text-gray-300 font-sans leading-relaxed mb-6" {...props} />,
+                    ul: ({node, ...props}) => <ul className="list-disc list-inside text-gray-300 mb-6 space-y-2" {...props} />,
+                    ol: ({node, ...props}) => <ol className="list-decimal list-inside text-gray-300 mb-6 space-y-2" {...props} />,
+                    li: ({node, ...props}) => <li className="text-gray-300" {...props} />,
+                    a: ({node, ...props}) => <a className="text-blue-400 hover:text-blue-300 underline underline-offset-4" {...props} />,
+                    strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />,
+                    hr: ({node, ...props}) => <hr className="border-white/10 my-8" {...props} />,
+                    table: ({node, ...props}) => <div className="overflow-x-auto mb-8"><table className="w-full text-left border-collapse" {...props} /></div>,
+                    th: ({node, ...props}) => <th className="border-b border-white/20 py-3 px-4 text-white font-mono text-sm uppercase tracking-widest bg-white/5" {...props} />,
+                    td: ({node, ...props}) => <td className="border-b border-white/10 py-3 px-4 text-gray-300" {...props} />,
+                    pre: ({node, ...props}) => <pre className="block bg-[#0A0A0A] border border-white/10 p-4 rounded-lg overflow-x-auto mb-6" {...props} />,
+                    code: ({node, className, ...props}) => {
+                      const isInline = !className;
+                      return isInline ? (
+                        <code className="bg-white/10 text-blue-300 px-1.5 py-0.5 rounded font-mono text-sm" {...props} />
+                      ) : (
+                        <code className={`font-mono text-sm text-green-400 ${className || ''}`} {...props} />
+                      );
+                    },
+                  }}
+                >
+                  {project.markdown}
+                </ReactMarkdown>
+              ) : (
+                <p>{project.details}</p>
+              )}
+            </div>
+            
+            {project.screenshots && project.screenshots.length > 0 && (
+              <div className="mt-16">
+                <h2 className="text-2xl font-display font-bold text-white mb-6">Gallery</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {project.screenshots.map((src, i) => (
+                    <div key={i} className="rounded-xl overflow-hidden border border-white/10">
+                      <img src={src} alt={`${project.title} screenshot ${i + 1}`} className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div>
+            <h2 className="text-2xl font-display font-bold text-white mb-6">Tech Stack</h2>
+            <div className="flex flex-col gap-4">
+              {project.techStack.map((tech, i) => (
+                <div key={i} className="flex items-center gap-3 border-b border-white/10 pb-4">
+                  <TerminalIcon className="w-4 h-4 text-gray-500" />
+                  <span className="font-mono text-sm text-gray-300 uppercase tracking-widest">{tech}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className="min-h-screen bg-[#030303] selection:bg-white/20 selection:text-white">
-      <AnimatePresence>
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
-      </AnimatePresence>
-      
-      {!loading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="noise-bg" />
-          <CustomCursor />
-          <Navbar />
-          <main>
-            <Hero />
-            <About />
-            <Showcase />
-            <Capabilities />
-            <TerminalSection />
-            <Metrics />
-            <HugeMarquee />
-          </main>
-          <Footer />
-        </motion.div>
-      )}
-    </div>
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen bg-[#030303] selection:bg-white/20 selection:text-white">
+        <AnimatePresence>
+          {loading && <Preloader onComplete={() => setLoading(false)} />}
+        </AnimatePresence>
+        
+        {!loading && (
+          <>
+            <div className="noise-bg" />
+            <CustomCursor />
+            <Navbar />
+            <main>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/project/:slug" element={<ProjectDetail />} />
+                </Routes>
+              </AnimatePresence>
+            </main>
+            <Footer />
+          </>
+        )}
+      </div>
+    </Router>
   );
 }
