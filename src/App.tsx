@@ -215,38 +215,112 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       setProgress(p => {
         if (p >= 100) {
           clearInterval(interval);
-          setTimeout(onComplete, 500);
+          setTimeout(onComplete, 800);
           return 100;
         }
-        return p + Math.floor(Math.random() * 15) + 5;
+        return p + Math.floor(Math.random() * 8) + 2;
       });
-    }, 100);
+    }, 150);
     return () => clearInterval(interval);
   }, [onComplete]);
 
   return (
     <motion.div 
-      className="fixed inset-0 z-[100] bg-[#030303] flex flex-col items-center justify-center text-white font-mono"
-      exit={{ opacity: 0, y: -50 }}
+      className="fixed inset-0 z-[100] bg-[#030303] flex flex-col items-center justify-center text-white"
+      exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
     >
-      <div className="w-64">
-        <div className="flex justify-between text-xs text-gray-500 mb-2 uppercase tracking-widest">
-          <span>Booting System</span>
-          <span>{progress}%</span>
-        </div>
-        <div className="h-[1px] w-full bg-white/10 relative overflow-hidden">
+      <div className="flex flex-col md:flex-row items-center gap-8 md:gap-10">
+        {/* Flask Icon with Liquid Fill */}
+        <div className="relative w-24 h-24 md:w-28 md:h-28">
+          
+          {/* Floating Atoms/Molecules */}
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-white"
-            initial={{ width: '0%' }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.1 }}
-          />
+            className="absolute -left-4 top-6 w-8 h-8 rounded-full border-2 border-white/30 flex items-center justify-center text-[10px] font-mono font-bold text-white/60 backdrop-blur-sm"
+            animate={{ y: [-4, 4, -4], x: [-2, 2, -2] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          >
+            AI
+          </motion.div>
+          <motion.div 
+            className="absolute -right-2 -top-2 w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center text-[8px] font-mono font-bold text-white/60 backdrop-blur-sm"
+            animate={{ y: [3, -3, 3], x: [2, -2, 2] }}
+            transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+          >
+            V
+          </motion.div>
+
+          {/* Bubbles */}
+          <AnimatePresence>
+            {progress > 10 && progress < 100 && (
+              <>
+                <motion.div 
+                  className="absolute w-2 h-2 bg-white rounded-full left-1/2 -ml-1 z-20"
+                  initial={{ y: 20, opacity: 0, scale: 0.5 }}
+                  animate={{ y: -60, opacity: [0, 1, 0], scale: 1.5 }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeOut" }}
+                />
+                <motion.div 
+                  className="absolute w-1.5 h-1.5 bg-white/80 rounded-full left-[40%] z-20"
+                  initial={{ y: 30, opacity: 0, scale: 0.5 }}
+                  animate={{ y: -40, opacity: [0, 1, 0], scale: 1 }}
+                  transition={{ repeat: Infinity, duration: 1.2, delay: 0.4, ease: "easeOut" }}
+                />
+                <motion.div 
+                  className="absolute w-3 h-3 bg-white/60 rounded-full right-[40%] z-20"
+                  initial={{ y: 25, opacity: 0, scale: 0.5 }}
+                  animate={{ y: -50, opacity: [0, 1, 0], scale: 1.2 }}
+                  transition={{ repeat: Infinity, duration: 1.8, delay: 0.2, ease: "easeOut" }}
+                />
+              </>
+            )}
+          </AnimatePresence>
+
+          {/* SVG Flask */}
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] relative z-10">
+            <defs>
+              <clipPath id="flask-clip">
+                <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a2.5 2.5 0 0 0 2.28 3.45h10a2.5 2.5 0 0 0 2.28-3.45l-5.069-10.127A2 2 0 0 1 14 9.527V2" />
+              </clipPath>
+            </defs>
+            {/* Liquid Fill */}
+            <motion.rect 
+              x="0" 
+              y="24" 
+              width="24" 
+              height="24" 
+              fill="white" 
+              clipPath="url(#flask-clip)"
+              animate={{ y: 24 - (progress / 100) * 22 }}
+              transition={{ ease: "easeOut", duration: 0.3 }}
+            />
+            {/* Flask Outline */}
+            <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a2.5 2.5 0 0 0 2.28 3.45h10a2.5 2.5 0 0 0 2.28-3.45l-5.069-10.127A2 2 0 0 1 14 9.527V2" />
+            <path d="M8.5 2h7" />
+          </svg>
         </div>
-        <div className="mt-4 text-[10px] text-gray-600 uppercase tracking-widest h-4">
-          {progress < 30 ? 'Initializing neural pathways...' : 
-           progress < 60 ? 'Loading language models...' : 
-           progress < 90 ? 'Calibrating latent space...' : 'System ready.'}
+
+        {/* Text & Progress */}
+        <div className="flex flex-col items-center md:items-start">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-white mb-2">
+            Vasudev Labs
+          </h1>
+          <div className="flex items-center gap-4 w-full max-w-[300px] md:max-w-full">
+            <div className="h-[2px] w-full bg-white/10 relative overflow-hidden rounded-full flex-1">
+              <motion.div 
+                className="absolute top-0 left-0 h-full bg-white"
+                initial={{ width: '0%' }}
+                animate={{ width: `${progress}%` }}
+                transition={{ ease: "easeOut", duration: 0.3 }}
+              />
+            </div>
+            <span className="font-mono text-xs text-gray-500 w-12 text-right">{progress}%</span>
+          </div>
+          <div className="mt-4 font-mono text-[10px] text-gray-600 uppercase tracking-widest h-4">
+            {progress < 30 ? 'Synthesizing neural pathways...' : 
+             progress < 60 ? 'Calibrating latent space...' : 
+             progress < 90 ? 'Loading language models...' : 'System ready.'}
+          </div>
         </div>
       </div>
     </motion.div>
